@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Slider</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#111;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .slider{
+            width:600px;
+            height:350px;
+            position:relative;
+            overflow:hidden;
+            border-radius:15px;
+            box-shadow:0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .slides{
+            display:flex;
+            width:300%;
+            height:100%;
+            transition:0.5s;
+        }
+
+        .slides img{
+            width:600px;
+            height:350px;
+            object-fit:cover;
+        }
+
+        .buttons{
+            position:absolute;
+            top:50%;
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            transform:translateY(-50%);
+        }
+
+        button{
+            background:rgba(0,0,0,0.5);
+            color:white;
+            border:none;
+            padding:10px 15px;
+            cursor:pointer;
+            font-size:18px;
+        }
+
+        button:hover{
+            background:rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="slider">
+    <div class="slides" id="slides">
+        <img src="https://picsum.photos/id/1015/600/350">
+        <img src="https://picsum.photos/id/1016/600/350">
+        <img src="https://picsum.photos/id/1018/600/350">
+    </div>
+
+    <div class="buttons">
+        <button onclick="prevSlide()">❮</button>
+        <button onclick="nextSlide()">❯</button>
+    </div>
+</div>
+
+<script>
+let index = 0;
+
+function showSlide(){
+    const slides = document.getElementById("slides");
+    slides.style.transform = `translateX(${-index * 600}px)`;
+}
+
+function nextSlide(){
+    index++;
+    if(index > 2) index = 0;
+    showSlide();
+}
+
+function prevSlide(){
+    index--;
+    if(index < 0) index = 2;
+    showSlide();
+}
+</script>
+
+</body>
+</html>
