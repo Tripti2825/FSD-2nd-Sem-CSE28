@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Typing Speed Tester</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#1e1e2f;
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .container{
+            background:#2c2c3e;
+            padding:25px;
+            border-radius:12px;
+            width:500px;
+            text-align:center;
+            box-shadow:0 0 15px rgba(0,0,0,0.4);
+        }
+
+        h2{
+            margin-bottom:10px;
+        }
+
+        #text{
+            background:#444;
+            padding:15px;
+            border-radius:8px;
+            margin-bottom:15px;
+        }
+
+        textarea{
+            width:100%;
+            height:100px;
+            padding:10px;
+            font-size:16px;
+            border-radius:8px;
+            border:none;
+            outline:none;
+            resize:none;
+        }
+
+        button{
+            margin-top:10px;
+            padding:10px 20px;
+            border:none;
+            border-radius:5px;
+            background:#00c896;
+            color:white;
+            cursor:pointer;
+        }
+
+        button:hover{
+            opacity:0.9;
+        }
+
+        .result{
+            margin-top:15px;
+            font-size:18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Typing Speed Tester</h2>
+
+    <div id="text">
+        The quick brown fox jumps over the lazy dog.
+    </div>
+
+    <textarea id="input" placeholder="Start typing here..."></textarea>
+
+    <br>
+    <button onclick="checkSpeed()">Check Speed</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+let startTime;
+
+document.getElementById("input").addEventListener("focus", function(){
+    startTime = new Date().getTime();
+});
+
+function checkSpeed(){
+
+    let text = "The quick brown fox jumps over the lazy dog.";
+    let typedText = document.getElementById("input").value;
+
+    let endTime = new Date().getTime();
+
+    let timeTaken = (endTime - startTime) / 1000; // seconds
+
+    let words = typedText.trim().split(" ").length;
+
+    let speed = Math.round((words / timeTaken) * 60);
+
+    let result = "";
+
+    if(typedText === text){
+        result = `Speed: ${speed} WPM (Perfect Accuracy)`;
+    } else {
+        result = `Speed: ${speed} WPM (Check accuracy)`;
+    }
+
+    document.getElementById("result").innerHTML = result;
+}
+</script>
+
+</body>
+</html>
