@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flipkart </title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f1f3f6;
+}
+
+header{
+background:#2874f0;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:white;
+flex-wrap:wrap;
+gap:10px;
+}
+
+header input{
+width:50%;
+padding:10px;
+border:none;
+border-radius:5px;
+}
+
+.container{
+display:flex;
+gap:20px;
+padding:20px;
+}
+
+.products{
+flex:2;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.price{
+color:green;
+font-size:22px;
+font-weight:bold;
+margin:10px 0;
+}
+
+.card button{
+background:#fb641b;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+cursor:pointer;
+border-radius:5px;
+}
+
+.cart{
+flex:1;
+background:white;
+padding:20px;
+border-radius:10px;
+height:fit-content;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.cart-item{
+border-bottom:1px solid #ddd;
+padding:10px 0;
+}
+
+.cart-item button{
+padding:4px 8px;
+margin:2px;
+}
+
+.total{
+margin-top:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+@media(max-width:768px){
+.container{
+flex-direction:column;
+}
+header input{
+width:100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>🛒 Flipkart Clone</h2>
+<input type="text" id="search" placeholder="Search Products">
+<h3>Cart: <span id="cartCount">0</span></h3>
+</header>
+
+<div class="container">
+
+<div class="products" id="products"></div>
+
+<div class="cart">
+<h2>Shopping Cart</h2>
+<div id="cartItems"></div>
+
+<hr><br>
+
+<p>Subtotal: ₹<span id="subtotal">0</span></p>
+<p>GST (18%): ₹<span id="gst">0</span></p>
+<p>Delivery: ₹50</p>
+
+<div class="total">
+Grand Total: ₹<span id="grandTotal">50</span>
+</div>
+</div>
+
+</div>
+
+<script>
+
+const products = [
+
+{
+id:1,
+name:"iPhone 15",
+price:69999,
+image:"https://i.guim.co.uk/img/media/18badfc0b64b09f917fd14bbe47d73fd92feeb27/189_335_5080_3048/master/5080.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1562112c7a64da36ae0a5e75075a0d12"
+},
+
+{
+id:2,
+name:"Samsung Galaxy",
+price:54999,
+image:"https://m.media-amazon.com/images/I/71Nwtop9jtL._AC_UF1000,1000_QL80_.jpg"
+},
+
+{
+id:3,
+name:"HP Laptop",
+price:49999,
+image:"https://saudewala.in/cdn/shop/files/WhatsAppImage2025-03-25at1.38.28PM.jpg?v=1742891089"
+},
+
+{
+id:4,
+name:"Dell Laptop",
+price:55999,
+image:"https://rukminim2.flixcart.com/image/480/640/xif0q/computer/i/7/r/latitude-3420-business-laptop-dell-original-imagn6hrwnczrmzv.jpeg?q=90"
+},
+
+{
+id:5,
+name:"Headphones",
+price:1999,
+image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHBob25lc3xlbnwwfHwwfHx8MA%3D%3D"
+},
+
+{
+id:6,
+name:"Smart Watch",
+price:2999,
+image:"https://gourban.in/cdn/shop/files/Pulse.jpg?v=1749553994&width=2048"
+},
+
+{
+id:7,
+name:"Nike Shoes",
+price:3499,
+image:"https://assets.ajio.com/medias/sys_master/root/20241104/2x9m/6728c02bf9b8ef490bffedd7/-473Wx593H-469685696-white-MODEL.jpg"
+},
+
+{
+id:8,
+name:"Camera",
+price:39999,
+image:"https://png.pngtree.com/png-clipart/20241114/original/pngtree-black-dslr-camera-with-large-lens-clipart-illustration-stock-photo-png-image_17009796.png"
+},
+
+{
+id:9,
+name:"LED TV",
+price:29999,
+image:"https://www.intex.in/cdn/shop/products/1_9b8014ad-124e-4742-a628-9a4c4affe617.jpg?v=1750330801"
+},
+
+{
+id:10,
+name:"Bluetooth Speaker",
+price:2499,
+image:"https://media-ik.croma.com/Croma%20Assets/Entertainment/Speakers%20and%20Media%20Players/Images/251614_0_ghxuff.png"
+},
+
+{
+id:11,
+name:"Keyboard",
+price:1499,
+image:"https://cdn.vectorstock.com/i/1000v/42/83/laptop-keyboard-letters-and-buttons-vector-19594283.jpg"
+},
+
+{
+id:12,
+name:"Gaming Mouse",
+price:999,
+image:"https://static.vecteezy.com/system/resources/thumbnails/048/218/131/small/gaming-mouse-with-colorful-lights-isolated-from-background-free-png.png"
+}
+
+];
+
+let cart=[];
+
+function displayProducts(data){
+
+let html="";
+
+data.forEach(product=>{
+
+html += `
+<div class="card">
+<img src="${product.image}">
+<h3>${product.name}</h3>
+<div class="price">₹${product.price}</div>
+<button onclick="addToCart(${product.id})">
+Add To Cart
+</button>
+</div>
+`;
+
+});
+
+document.getElementById("products").innerHTML=html;
+}
+
+displayProducts(products);
+
+function addToCart(id){
+
+let item=cart.find(p=>p.id===id);
+
+if(item){
+item.qty++;
+}else{
+let product=products.find(p=>p.id===id);
+cart.push({...product,qty:1});
+}
+
+updateCart();
+}
+
+function updateCart(){
+
+let html="";
+let subtotal=0;
+let count=0;
+
+cart.forEach(item=>{
+
+subtotal += item.price*item.qty;
+count += item.qty;
+
+html += `
+<div class="cart-item">
+<b>${item.name}</b><br>
+₹${item.price} × ${item.qty}<br>
+
+<button onclick="changeQty(${item.id},1)">+</button>
+<button onclick="changeQty(${item.id},-1)">-</button>
+<button onclick="removeItem(${item.id})">Remove</button>
+</div>
+`;
+
+});
+
+let gst=Math.round(subtotal*0.18);
+let grand=subtotal+gst+50;
+
+document.getElementById("cartItems").innerHTML=html;
+document.getElementById("subtotal").innerText=subtotal;
+document.getElementById("gst").innerText=gst;
+document.getElementById("grandTotal").innerText=grand;
+document.getElementById("cartCount").innerText=count;
+}
+
+function changeQty(id,val){
+
+let item=cart.find(p=>p.id===id);
+
+item.qty += val;
+
+if(item.qty<=0){
+cart=cart.filter(p=>p.id!==id);
+}
+
+updateCart();
+}
+
+function removeItem(id){
+cart=cart.filter(p=>p.id!==id);
+updateCart();
+}
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+
+let filtered=products.filter(product =>
+product.name.toLowerCase().includes(value)
+);
+
+displayProducts(filtered);
+
+});
+
+</script>
+
+</body>
+</html>
+```
