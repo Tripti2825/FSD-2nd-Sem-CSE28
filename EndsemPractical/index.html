@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+        }
+
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Countdown Timer</h1>
+
+    <input type="number" id="num" placeholder="Enter a number">
+    <button onclick="startCountdown()">Start</button>
+
+    <div id="result"></div>
+
+    <script>
+        function startCountdown() {
+            let n = parseInt(document.getElementById("num").value);
+            let output = "";
+
+            for (let i = n; i >= 1; i--) {
+                output += i + "<br>";
+            }
+
+            document.getElementById("result").innerHTML = output;
+        }
+    </script>
+
+</body>
+</html>
